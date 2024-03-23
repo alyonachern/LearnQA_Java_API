@@ -15,7 +15,7 @@ public class GetHeaderTest {
                 .andReturn();
 
         Headers header = response.getHeaders();
-        assertTrue(header.hasHeaderWithName("X-Secret-Homework-Header"));
-        assertEquals("Some secret value", response.getHeader("X-Secret-Homework-Header"));
+        assertTrue(header.hasHeaderWithName("X-Secret-Homework-Header"), "Header with key 'X-Secret-Homework-Header' doesn't exist");
+        assertEquals("Some secret value", response.getHeader("X-Secret-Homework-Header"), "Value of header 'X-Secret-Homework-Header' differs");
     }
 }
