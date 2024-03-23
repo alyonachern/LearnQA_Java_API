@@ -17,6 +17,6 @@ public class GetCookieTest {
 
         Map<String, String> cookie = response.getCookies();
         assertTrue(cookie.containsKey("HomeWork"), "Cookie with key 'HomeWork' doesn't exist");
-        assertEquals("hw_value", response.getCookie("HomeWork"), "Value of cookie HomeWork differs");
+        assertEquals("hw_value", cookie.get("HomeWork"), "Value of cookie HomeWork differs");
     }
 }
