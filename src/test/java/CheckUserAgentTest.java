@@ -26,8 +26,8 @@ public class CheckUserAgentTest {
         String actualBrowser = response.getString("browser");
         String actualDevice = response.getString("device");
 
-       assertEquals(platform, actualPlatform, "Platforms doesn't match");
-       assertEquals(browser, actualBrowser, "Browsers doesn't match");
-       assertEquals(device, actualDevice, "Devices doesn't match");
+        assertEquals(platform, actualPlatform, "Platforms doesn't match");
+        assertEquals(browser, actualBrowser, "Browsers doesn't match");
+        assertEquals(device, actualDevice, "Devices doesn't match");
     }
 }
