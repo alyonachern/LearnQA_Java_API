@@ -47,7 +47,19 @@ public class Assertions {
         }
     }
 
-    public static void assertJsonHasNotField(Response response, String unexpectedFieldName) {
+    public static void assertJsonNotHasField(Response response, String unexpectedFieldName) {
         response.then().assertThat().body("$", not(hasKey(unexpectedFieldName)));
+    }
+
+    public static void assertJsonNotHasFields(Response response, String[] unexpectedFieldNames) {
+        for (String unexpectedFieldName : unexpectedFieldNames) {
+            assertJsonNotHasField(response, unexpectedFieldName);
+        }
+    }
+
+    public static void assertHasUsernameOnly(Response response) {
+        Assertions.assertJsonHasField(response, "username");
+        String[] expectedFields = {"firstName", "lastName", "email"};
+        Assertions.assertJsonNotHasFields(response, expectedFields);
     }
 }
