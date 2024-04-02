@@ -61,7 +61,6 @@ public class ApiCoreRequests {
 
     @Step("CreateUser")
     public JsonPath createUser(Map<String, String> body) {
-        Map<String, String> userData = DataGenerator.getRegistrationData();
         return given()
                 .filter(new AllureRestAssured())
                 .body(body)
@@ -74,6 +73,7 @@ public class ApiCoreRequests {
         return makePostRequestWithBody("https://playground.learnqa.ru/api/user/login", data);
     }
 
+    @Step("Create and login under user")
     public Response createAndLoginRandomUser(Map<String, String> data) {
         createUser(data);
 
@@ -83,8 +83,19 @@ public class ApiCoreRequests {
         return loginUser(authData);
     }
 
+    @Step("Get User ID")
     public String getSameUserId(Response response) {
         JsonPath body = response.jsonPath();
         return body.getString("user_id");
+    }
+
+    @Step("Make DELETE-request with token and cookie")
+    public Response makeDeleteRequest(String url, String token, String cookie) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_sid", cookie)
+                .delete(url)
+                .andReturn();
     }
 }

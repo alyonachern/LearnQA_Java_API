@@ -14,20 +14,23 @@ import java.util.Map;
 public class UserEditTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     String otherUserId = "2";
+    String cookie;
+    String header;
+    String userId;
 
     @Test
     public void testEditJustCreatedUser() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         JsonPath responseCreateAuth = apiCoreRequests.createUser(userData);
-        String userId = responseCreateAuth.getString("id");
+        userId = responseCreateAuth.getString("id");
 
         Map<String, String> authData = new HashMap<>();
         authData.put("email", userData.get("email"));
         authData.put("password", userData.get("password"));
         Response responseGetAuth = apiCoreRequests.loginUser(authData);
 
-        String cookie = this.getCookie(responseGetAuth, "auth_sid");
-        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        cookie = this.getCookie(responseGetAuth, "auth_sid");
+        header = this.getHeader(responseGetAuth, "x-csrf-token");
 
         String newName = "ChangedName";
         Map<String, String> editData = new HashMap<>();
@@ -64,8 +67,8 @@ public class UserEditTest extends BaseTestCase {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         Response responseGetAuth = apiCoreRequests.createAndLoginRandomUser(userData);
 
-        String cookie = this.getCookie(responseGetAuth, "auth_sid");
-        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        cookie = this.getCookie(responseGetAuth, "auth_sid");
+        header = this.getHeader(responseGetAuth, "x-csrf-token");
 
         String newName = "ChangedName";
         Map<String, String> editData = new HashMap<>();
@@ -84,10 +87,10 @@ public class UserEditTest extends BaseTestCase {
     public void testEditUserWithNonValidEmail() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         Response responseGetAuth = apiCoreRequests.createAndLoginRandomUser(userData);
-        String userId = apiCoreRequests.getSameUserId(responseGetAuth);
+        userId = apiCoreRequests.getSameUserId(responseGetAuth);
 
-        String cookie = this.getCookie(responseGetAuth, "auth_sid");
-        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        cookie = this.getCookie(responseGetAuth, "auth_sid");
+        header = this.getHeader(responseGetAuth, "x-csrf-token");
 
         String email = DataGenerator.getRandomNonValidEmail();
         Map<String, String> editData = new HashMap<>();
@@ -106,10 +109,10 @@ public class UserEditTest extends BaseTestCase {
     public void testEditUserWithVeryShortFirstname() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         Response responseGetAuth = apiCoreRequests.createAndLoginRandomUser(userData);
-        String userId = apiCoreRequests.getSameUserId(responseGetAuth);
+        userId = apiCoreRequests.getSameUserId(responseGetAuth);
 
-        String cookie = this.getCookie(responseGetAuth, "auth_sid");
-        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        cookie = this.getCookie(responseGetAuth, "auth_sid");
+        header = this.getHeader(responseGetAuth, "x-csrf-token");
 
         String newName = "A";
         Map<String, String> editData = new HashMap<>();
