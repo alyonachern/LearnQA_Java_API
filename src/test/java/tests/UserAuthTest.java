@@ -1,5 +1,9 @@
 package tests;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -7,6 +11,7 @@ import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,6 +19,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("Work with USER")
+@Story("USER-2")
 public class UserAuthTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     String cookie;
@@ -34,6 +41,8 @@ public class UserAuthTest extends BaseTestCase {
     }
 
     @Test
+    @DisplayName("Happy path authorized")
+    @Severity(SeverityLevel.CRITICAL)
     public void testAuthUser() {
         Response responseCheckAuth = apiCoreRequests.makeGetRequest(
                 "https://playground.learnqa.ru/api/user/auth",
@@ -45,6 +54,8 @@ public class UserAuthTest extends BaseTestCase {
 
     @ParameterizedTest
     @ValueSource(strings = {"cookie", "headers"})
+    @DisplayName("Not authorized user")
+    @Severity(SeverityLevel.NORMAL)
     public void testNegativeAuthUser(String condition) {
         RequestSpecification spec = RestAssured.given();
         spec.baseUri("https://playground.learnqa.ru/api/user/auth");
